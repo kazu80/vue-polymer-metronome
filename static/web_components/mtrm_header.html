@@ -1,0 +1,87 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="./mtrm_title.html">
+
+<dom-module id="mtrm-header">
+    <template>
+        <style>
+            :host {
+                --text-color       : #ffffff;
+                --background-color : #888888;
+            }
+
+            app-header {
+                color            : var(--text-color);
+                background-color : var(--background-color);
+            }
+
+            mtrm-title {
+                --font-color  : var(--text-color);
+                --font-family : 'Roboto', 'Noto', sans-serif;
+                --font-weight : inherit;
+
+                position      : relative;
+            }
+
+            mtrm-title iron-icon {
+                position  : absolute;
+                top       : 50%;
+                right     : -30px;
+                transform : translateY(-50%);
+            }
+
+            .menu-wrapper {
+                display         : flex;
+                flex-direction  : row;
+                justify-content : space-between;
+                width           : 100px;
+            }
+
+            .menu-wrapper a {
+                color : #ffffff;
+            }
+
+            .menu-wrapper a.iron-selected {
+                color : var(--color-fancy);
+            }
+
+            @media (max-width : 767px) {
+                .menu-wrapper {
+                    width : 25vw;
+                }
+            }
+
+        </style>
+
+        <app-header reveals>
+            <app-toolbar>
+                <div main-title class="main-title">
+                    <mtrm-title title="METRONOME" link="[[rootPath]]">
+                        <iron-icon icon="icons:polymer" slot="icon"></iron-icon>
+                    </mtrm-title>
+                </div>
+            </app-toolbar>
+        </app-header>
+    </template>
+
+    <script>
+        /* eslint-disable no-undef,indent,key-spacing,func-call-spacing */
+
+        class MtrmHeader extends Polymer.Element {
+            static get is () { return 'mtrm-header'; }
+
+            static get properties () {
+                return {
+                    rootPath: String,
+                    view    : {
+                        type              : String,
+                        reflectToAttribute: true,
+                    },
+                };
+            }
+        }
+
+        window.customElements.define (MtrmHeader.is, MtrmHeader);
+    </script>
+</dom-module>
