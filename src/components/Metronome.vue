@@ -80,7 +80,7 @@
 </style>
 
 <script>
-    /* eslint-disable indent */
+    /* eslint-disable indent,key-spacing */
     export default {
         name      : 'Metronome',
         data () {
