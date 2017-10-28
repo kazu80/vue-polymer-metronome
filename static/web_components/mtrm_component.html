@@ -87,7 +87,7 @@
                 <template is="dom-if" if="{{!isTypePlay}}">
                     <mtrm-display add-class="center">
                         <template is="dom-if" if="{{isTypeSlider}}">
-                            [[param]]
+                            [[val]]
                         </template>
                         <template is="dom-if" if="{{isTypeLifting}}">
                             <ul>
@@ -107,24 +107,24 @@
 
                 <!-- action -->
                 <template is="dom-if" if="{{isTypeLifting}}">
-                    <mtrm-lifting params="[[params]]" param="{{param}}"></mtrm-lifting>
+                    <mtrm-lifting params="[[params]]" param="{{val}}"></mtrm-lifting>
                 </template>
 
                 <template is="dom-if" if="{{isTypeSlider}}">
                     <div class="slider-wrapper">
-                        <paper-slider pin="true" value="{{param}}" min="{{params.min}}" max="{{params.max}}" step="{{params.step}}"></paper-slider>
+                        <paper-slider pin="true" value="{{val}}" min="{{min}}" max="{{max}}" step="{{step}}"></paper-slider>
                     </div>
                 </template>
 
                 <template is="dom-if" if="{{isTypePlay}}">
-                    <mtrm-button-play id="playButton" cnt="{{param}}" on-dom-change="_onDomChange"></mtrm-button-play>
+                    <mtrm-button-play id="playButton" cnt="{{val}}" on-dom-change="_onDomChange"></mtrm-button-play>
                 </template>
                 <!-- /action -->
             </div>
         </mtrm-card>
     </template>
     <script>
-        /* eslint-disable no-undef,indent,key-spacing,no-useless-constructor,func-call-spacing,semi */
+        /* eslint-disable no-undef,indent,key-spacing,no-useless-constructor,func-call-spacing,semi,comma-dangle */
         class MtrmComponent extends Polymer.Element {
             static get is () { return 'mtrm-component'; }
 
@@ -134,10 +134,22 @@
                         type: String,
                     },
                     params: {
-                        type  : Array,
+                        type  : Object,
                         notify: true,
                     },
-                    param : {
+                    min   : {
+                        type  : Number,
+                        notify: true,
+                    },
+                    max   : {
+                        type  : Number,
+                        notify: true,
+                    },
+                    step  : {
+                        type  : Number,
+                        notify: true,
+                    },
+                    val   : {
                         type  : Number,
                         notify: true,
                     },
