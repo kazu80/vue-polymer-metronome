@@ -3,7 +3,7 @@
 </template>
 <style></style>
 <script>
-    /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks */
+    /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing */
     export default {
         name: 'MetronomeBeat',
         data () {
