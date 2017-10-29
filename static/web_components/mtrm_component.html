@@ -37,6 +37,10 @@
                 }
             }
 
+            .wrapper .title {
+                text-align : left;
+            }
+
             ul {
                 display         : flex;
                 flex-direction  : row;
@@ -112,7 +116,7 @@
 
                 <template is="dom-if" if="{{isTypeSlider}}">
                     <div class="slider-wrapper">
-                        <paper-slider pin="true" value="{{val}}" min="{{min}}" max="{{max}}" step="{{step}}"></paper-slider>
+                        <paper-slider pin="true" value="{{val}}" min="{{params.min}}" max="{{params.max}}" step="{{params.step}}"></paper-slider>
                     </div>
                 </template>
 
@@ -137,21 +141,10 @@
                         type  : Object,
                         notify: true,
                     },
-                    min   : {
-                        type  : Number,
-                        notify: true,
-                    },
-                    max   : {
-                        type  : Number,
-                        notify: true,
-                    },
-                    step  : {
-                        type  : Number,
-                        notify: true,
-                    },
                     val   : {
-                        type  : Number,
-                        notify: true,
+                        type    : Number,
+                        notify  : true,
+                        observer: '_observerParams',
                     },
                     type  : {
                         type    : String,
@@ -182,6 +175,27 @@
                 this.isTypeLifting = val === 'lifting';
                 this.isTypeSlider = val === 'slider';
                 this.isTypePlay = val === 'play';
+            }
+
+            _observerParams (latest, old) {
+                if (old) {
+                    const offIndex = old - 1;
+
+                    // パラメーターの変更
+                    if (typeof this.params.splice === 'function') {
+                        this.params.splice (offIndex, 1, {id: old, active: false});
+                    }
+                }
+
+                const onIndex = latest - 1;
+
+                // パラメーターの変更
+                if (typeof this.params.splice === 'function') {
+                    this.params.splice (onIndex, 1, {id: latest, active: true});
+                }
+
+                // 配列の変更通知。これをしない変更検知されない
+                this.notifySplices ('params', []);
             }
         }
 

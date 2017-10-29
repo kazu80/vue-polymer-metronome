@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <mtrm-component :title="title" :min="tempos.min" :max="tempos.max" :step="tempos.step" :val="tempo" type="slider"></mtrm-component>
-    </div>
+    <mtrm-component :title="title" :params="serializeTempos" :val="tempo" type="slider"></mtrm-component>
 </template>
 <style>
 
 </style>
 <script>
-    /* eslint-disable indent,key-spacing */
+    /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks */
     export default {
-        name: 'MetronomeTempo',
+        name    : 'MetronomeTempo',
         data () {
             return {
                 title : 'TEMPO',
@@ -19,6 +17,11 @@
                     max : 255,
                     step: 1
                 }
+            }
+        },
+        computed: {
+            serializeTempos: function () {
+                return JSON.stringify (this.tempos);
             }
         }
     }
