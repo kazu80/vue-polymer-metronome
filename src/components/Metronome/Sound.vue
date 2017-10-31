@@ -1,7 +1,11 @@
 <template>
     <mtrm-component type="lifting" :title="title" :params="serializeSounds" :val="sound"></mtrm-component>
 </template>
-<style></style>
+<style scoped>
+    mtrm-component {
+        --display-font-size : 65px;
+    }
+</style>
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing */
     export default {
