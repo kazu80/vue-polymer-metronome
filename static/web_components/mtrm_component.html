@@ -206,6 +206,9 @@
 
                 // 配列の変更通知。これをしない変更検知されない
                 this.notifySplices ('params', []);
+
+                //
+                this.dispatchEvent (new CustomEvent ('change', {'latest': latest}));
             }
         }
 

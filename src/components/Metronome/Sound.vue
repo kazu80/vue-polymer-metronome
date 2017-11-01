@@ -1,5 +1,5 @@
 <template>
-    <mtrm-component type="lifting" :title="title" :params="serializeSounds" :val="sound"></mtrm-component>
+    <mtrm-component type="lifting" :title="title" :params="serializeSounds" :val="sound" @change="change"></mtrm-component>
 </template>
 <style scoped>
     mtrm-component {
@@ -9,7 +9,7 @@
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing */
     export default {
-        name: 'MetronomeSound',
+        name    : 'MetronomeSound',
         data () {
             return {
                 title : 'SOUND',
@@ -22,9 +22,25 @@
                 ]
             }
         },
+        mounted : function () {
+            const foo = this.$el;
+            foo.addEventListener ('change', val => {
+                console.log (val.latest);
+            });
+        },
         computed: {
             serializeSounds: function () {
                 return JSON.stringify (this.sounds);
+            }
+        },
+        methods : {
+            change: function (val) {
+                console.log (val);
+            }
+        },
+        watch   : {
+            sounds: function (e) {
+                // console.log(e.target.latest);
             }
         }
     }
