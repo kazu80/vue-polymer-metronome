@@ -22,12 +22,6 @@
                 ]
             }
         },
-        mounted : function () {
-            const foo = this.$el;
-            foo.addEventListener ('change', val => {
-                console.log (val.latest);
-            });
-        },
         computed: {
             serializeSounds: function () {
                 return JSON.stringify (this.sounds);
@@ -35,13 +29,8 @@
         },
         methods : {
             change: function (val) {
-                console.log (val);
+                console.log (val.detail);
             }
         },
-        watch   : {
-            sounds: function (e) {
-                // console.log(e.target.latest);
-            }
-        }
     }
 </script>

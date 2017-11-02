@@ -208,7 +208,12 @@
                 this.notifySplices ('params', []);
 
                 //
-                this.dispatchEvent (new CustomEvent ('change', {'latest': latest}));
+                const detail = {
+                    'detail': {
+                        'selected': latest,
+                    }
+                };
+                this.dispatchEvent (new CustomEvent ('change', detail));
             }
         }
 
