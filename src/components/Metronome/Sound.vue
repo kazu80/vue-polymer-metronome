@@ -29,7 +29,9 @@
         },
         methods : {
             change: function (val) {
-                console.log (val.detail);
+                const selected = val.detail.selected;
+                const file = this.sounds[selected - 1].file;
+                this.$emit ('change', file);
             }
         },
     }

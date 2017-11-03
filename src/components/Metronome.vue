@@ -8,13 +8,13 @@
                 <metronome-beat></metronome-beat>
             </li>
             <li>
-                <metronome-sound></metronome-sound>
+                <metronome-sound @change="change"></metronome-sound>
             </li>
             <li>
                 <metronome-volume></metronome-volume>
             </li>
             <li class="width-full-mobile">
-                <metronome-play></metronome-play>
+                <metronome-play :sound="sound"></metronome-play>
             </li>
         </ul>
     </main>
@@ -84,12 +84,17 @@
 </style>
 
 <script>
-    /* eslint-disable indent,key-spacing */
+    /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing */
     export default {
         name      : 'Metronome',
         data () {
             return {
-                msg: 'This is Metronome'
+                sound: ''
+            }
+        },
+        methods   : {
+            change: function (val) {
+                this.$data.sound = val;
             }
         },
         components: {

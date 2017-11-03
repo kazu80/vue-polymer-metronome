@@ -11,6 +11,7 @@
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing,no-unused-vars */
     export default {
+        props  : ['sound'],
         name   : 'MetronomePlay',
         data () {
             return {
@@ -25,9 +26,6 @@
         mounted: function () {
         },
         methods: {
-            play                   : function () {
-                this.isPlay = !this.isPlay;
-            },
             _observerSoundFileTempo: function () {
 
             },
