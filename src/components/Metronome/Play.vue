@@ -21,9 +21,11 @@
                 beat     : 0,
                 beatCount: 0,
                 tempo    : 100,
+                context  : {}
             }
         },
         mounted: function () {
+            this.context = new AudioContext ();
         },
         methods: {
             _observerSoundFileTempo: function () {
@@ -31,9 +33,41 @@
             },
             _observerSoundFileBeat : function () {
 
+            },
+            _loadBufferFromURL (url, callback) {
+                const request = new XMLHttpRequest ();
+                request.open ('GET', url, true);
+                request.responseType = 'arraybuffer';
+
+                request.onload = () => {
+                    this.context.decodeAudioData (request.response,
+                                                  function (buffer) {
+                                                      if (!buffer) {
+                                                          alert ('error decoding file data: ' + url);
+                                                          return;
+                                                      }
+
+                                                      callback (buffer);
+                                                  },
+                                                  function (error) {
+                                                      console.error ('decodeAudioData error', error);
+                                                  }
+                    );
+                };
+
+                request.onerror = function () {
+                    alert ('BufferLoader: XHR error');
+                };
+
+                request.send ();
             }
         },
         watch  : {
+            sound : function (val) {
+                this._loadBufferFromURL (val, (buffer) => {
+                    this.initialTempo (buffer, this.volume * 0.1);
+                });
+            },
             isPlay: function (val) {
                 if (val) {
                     let count = 0;
