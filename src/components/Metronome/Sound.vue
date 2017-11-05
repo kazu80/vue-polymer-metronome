@@ -15,10 +15,10 @@
                 title : 'SOUND',
                 sound : 1,
                 sounds: [
-                    {id: 1, file: '../../sound/s_01.mp3', active: false},
-                    {id: 2, file: '../../sound/s_02.mp3', active: false},
-                    {id: 3, file: '../../sound/s_03.mp3', active: false},
-                    {id: 4, file: '../../sound/s_04.mp3', active: false},
+                    {id: 1, file: '/static/sound/s_01.mp3', active: false},
+                    {id: 2, file: '/static/sound/s_02.mp3', active: false},
+                    {id: 3, file: '/static/sound/s_03.mp3', active: false},
+                    {id: 4, file: '/static/sound/s_04.mp3', active: false},
                 ]
             }
         },

@@ -15,25 +15,31 @@
         name   : 'MetronomePlay',
         data () {
             return {
-                params   : '',
-                isPlay   : false,
-                interval : 0,
-                beat     : 0,
-                beatCount: 0,
-                tempo    : 100,
-                context  : {}
+                params          : '',
+                isPlay          : false,
+                interval        : 0,
+                beat            : 0,
+                beatCount       : 0,
+                tempo           : 100,
+                context         : {},
+                soundSourceTempo: {},
+                soundSourceBeat : {},
+                soundGainTempo  : {},
+                soundGainBeat   : {},
             }
         },
         mounted: function () {
             this.context = new AudioContext ();
+
+            this._loadBufferFromURL ('/static/sound/s_01.mp3', (buffer) => {
+                this.initialTempo (buffer, this.volume * 0.1);
+            });
         },
         methods: {
-            _observerSoundFileTempo: function () {
-
+            play () {
+                this.isPlay = !this.isPlay;
             },
-            _observerSoundFileBeat : function () {
 
-            },
             _loadBufferFromURL (url, callback) {
                 const request = new XMLHttpRequest ();
                 request.open ('GET', url, true);
@@ -60,12 +66,55 @@
                 };
 
                 request.send ();
+            },
+
+            _playBeat () {
+                this.soundSourceBeat.start (0);
+            },
+
+            _playTempo () {
+                this.soundSourceTempo.start (0);
+            },
+
+            initialTempo (buffer, gain) {
+                this.soundSourceTempo = this.context.createBufferSource ();
+                this.soundGainTempo = this.context.createGain ();
+
+                this.soundSourceTempo.buffer = buffer;
+                this.soundGainTempo.gain.value = gain;
+
+                this.soundGainTempo.connect (this.context.destination);
+                this.soundSourceTempo.connect (this.soundGainTempo);
+
+                this.soundSourceTempo.onended = () => {
+                    this.initialTempo (buffer, this.volume * 0.1);
+                };
+            },
+
+            initialBeat (buffer, gain) {
+                this.soundSourceBeat = this.context.createBufferSource ();
+                this.soundGainBeat = this.context.createGain ();
+
+                this.soundSourceBeat.buffer = buffer;
+                this.soundGainBeat.gain.value = gain;
+
+                this.soundGainBeat.connect (this.context.destination);
+                this.soundSourceBeat.connect (this.soundGainBeat);
+
+                this.soundSourceBeat.onended = () => {
+                    this.initialBeat (buffer, this.volume * 0.1);
+                };
             }
         },
         watch  : {
             sound : function (val) {
                 this._loadBufferFromURL (val, (buffer) => {
                     this.initialTempo (buffer, this.volume * 0.1);
+                });
+            },
+            beat  : function (val) {
+                this._loadBufferFromURL (val, (buffer) => {
+                    this.initialBeat (buffer, this.volume * 0.1);
                 });
             },
             isPlay: function (val) {
