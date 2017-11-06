@@ -21,6 +21,7 @@
                 beat            : 0,
                 beatCount       : 0,
                 tempo           : 100,
+                volume          : 5,
                 context         : {},
                 soundSourceTempo: {},
                 soundSourceBeat : {},
@@ -32,7 +33,7 @@
             this.context = new AudioContext ();
 
             this._loadBufferFromURL ('/static/sound/s_01.mp3', (buffer) => {
-                this.initialTempo (buffer, this.volume * 0.1);
+                this.initialTempo (buffer, this.$data.volume * 0.1);
             });
         },
         methods: {
@@ -69,77 +70,77 @@
             },
 
             _playBeat () {
-                this.soundSourceBeat.start (0);
+                this.$data.soundSourceBeat.start (0);
             },
 
             _playTempo () {
-                this.soundSourceTempo.start (0);
+                this.$data.soundSourceTempo.start (0);
             },
 
             initialTempo (buffer, gain) {
-                this.soundSourceTempo = this.context.createBufferSource ();
-                this.soundGainTempo = this.context.createGain ();
+                this.$data.soundSourceTempo = this.$data.context.createBufferSource ();
+                this.$data.soundGainTempo = this.$data.context.createGain ();
 
-                this.soundSourceTempo.buffer = buffer;
-                this.soundGainTempo.gain.value = gain;
+                this.$data.soundSourceTempo.buffer = buffer;
+                this.$data.soundGainTempo.gain.value = gain;
 
-                this.soundGainTempo.connect (this.context.destination);
-                this.soundSourceTempo.connect (this.soundGainTempo);
+                this.$data.soundGainTempo.connect (this.$data.context.destination);
+                this.$data.soundSourceTempo.connect (this.$data.soundGainTempo);
 
-                this.soundSourceTempo.onended = () => {
+                this.$data.soundSourceTempo.onended = () => {
                     this.initialTempo (buffer, this.volume * 0.1);
                 };
             },
 
             initialBeat (buffer, gain) {
-                this.soundSourceBeat = this.context.createBufferSource ();
-                this.soundGainBeat = this.context.createGain ();
+                this.$data.soundSourceBeat = this.$data.context.createBufferSource ();
+                this.$data.soundGainBeat = this.$data.context.createGain ();
 
-                this.soundSourceBeat.buffer = buffer;
-                this.soundGainBeat.gain.value = gain;
+                this.$data.soundSourceBeat.buffer = buffer;
+                this.$data.soundGainBeat.gain.value = gain;
 
-                this.soundGainBeat.connect (this.context.destination);
-                this.soundSourceBeat.connect (this.soundGainBeat);
+                this.$data.soundGainBeat.connect (this.$data.context.destination);
+                this.$data.soundSourceBeat.connect (this.$data.soundGainBeat);
 
-                this.soundSourceBeat.onended = () => {
-                    this.initialBeat (buffer, this.volume * 0.1);
+                this.$data.soundSourceBeat.onended = () => {
+                    this.initialBeat (buffer, this.$data.volume * 0.1);
                 };
             }
         },
         watch  : {
             sound : function (val) {
                 this._loadBufferFromURL (val, (buffer) => {
-                    this.initialTempo (buffer, this.volume * 0.1);
+                    this.initialTempo (buffer, this.$data.volume * 0.1);
                 });
             },
             beat  : function (val) {
                 this._loadBufferFromURL (val, (buffer) => {
-                    this.initialBeat (buffer, this.volume * 0.1);
+                    this.initialBeat (buffer, this.$data.volume * 0.1);
                 });
             },
             isPlay: function (val) {
                 if (val) {
                     let count = 0;
 
-                    this.interval = setInterval (() => {
+                    this.$data.interval = setInterval (() => {
                         //
-                        count % this.beat === 0 ? this._playBeat () : this._playTempo ();
+                        count % this.$data.beat === 0 ? this._playBeat () : this._playTempo ();
 
                         //
-                        this.beatCount = count;
+                        this.$data.beatCount = count;
 
                         count++;
-                    }, 60 * 1000 / this.tempo);
+                    }, 60 * 1000 / this.$data.tempo);
                 } else {
-                    if (this.interval) {
+                    if (this.$data.interval) {
                         //
-                        clearInterval (this.interval);
+                        clearInterval (this.$data.interval);
 
                         //
-                        this.interval = 0;
+                        this.$data.interval = 0;
 
                         //
-                        this.beatCount = 0;
+                        this.$data.beatCount = 0;
                     }
                 }
             }
