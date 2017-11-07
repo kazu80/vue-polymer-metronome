@@ -18,7 +18,7 @@
                 params          : '',
                 isPlay          : false,
                 interval        : 0,
-                beat            : 0,
+                beat            : 4,
                 beatCount       : 0,
                 tempo           : 100,
                 volume          : 5,
@@ -32,8 +32,14 @@
         mounted: function () {
             this.context = new AudioContext ();
 
+            // Tempo
             this._loadBufferFromURL ('/static/sound/s_01.mp3', (buffer) => {
                 this.initialTempo (buffer, this.$data.volume * 0.1);
+            });
+
+            // Beat
+            this._loadBufferFromURL ('/static/sound/s_02.mp3', (buffer) => {
+                this.initialBeat (buffer, this.$data.volume * 0.1);
             });
         },
         methods: {
