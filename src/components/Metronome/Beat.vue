@@ -1,15 +1,19 @@
 <template>
-    <mtrm-component type="lifting" :title="title" :params="serializeBeats" :val="beat"></mtrm-component>
+    <mtrm-component type="lifting" :title="title" :params="serializeBeats" :val="beat" @change="change"></mtrm-component>
 </template>
 <style></style>
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing */
     export default {
-        name: 'MetronomeBeat',
+        props   : {
+            beat: {
+                type: Number,
+            },
+        },
+        name    : 'MetronomeBeat',
         data () {
             return {
                 title: 'BEAT',
-                beat : 1,
                 beats: [
                     {id: 1, active: false},
                     {id: 2, active: false},
@@ -25,6 +29,11 @@
         computed: {
             serializeBeats: function () {
                 return JSON.stringify (this.beats);
+            }
+        },
+        methods : {
+            change: function (val) {
+                this.$emit ('change', val.detail.selected);
             }
         }
     }

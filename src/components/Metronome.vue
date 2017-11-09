@@ -5,16 +5,16 @@
                 <metronome-tempo :tempo="tempo" @change="changeTempo"></metronome-tempo>
             </li>
             <li>
-                <metronome-beat></metronome-beat>
+                <metronome-beat :beat="beat" @change="changeBeat"></metronome-beat>
             </li>
             <li>
                 <metronome-sound :sound="sound" @change="changeSound"></metronome-sound>
             </li>
             <li>
-                <metronome-volume></metronome-volume>
+                <metronome-volume :volume="volume" @change="changeVolume"></metronome-volume>
             </li>
             <li class="width-full-mobile">
-                <metronome-play :tempo="tempo" :sound="soundFile"></metronome-play>
+                <metronome-play :tempo="tempo" :beat="beat" :sound="soundFile" :volume="volume"></metronome-play>
             </li>
         </ul>
     </main>
@@ -91,15 +91,23 @@
             return {
                 tempo    : 120,
                 sound    : 1,
+                beat     : 4,
+                volume   : 5,
                 soundFile: '',
             }
         },
         methods   : {
-            changeTempo: function (val) {
+            changeTempo : function (val) {
                 this.$data.tempo = val;
             },
-            changeSound: function (val) {
+            changeSound : function (val) {
                 this.$data.soundFile = val;
+            },
+            changeBeat  : function (val) {
+                this.$data.beat = val;
+            },
+            changeVolume: function (val) {
+                this.$data.volume = val;
             }
         },
         components: {

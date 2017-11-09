@@ -1,15 +1,19 @@
 <template>
-    <mtrm-component type="lifting" :title="title" :params="serializeVolume" :val="volume"></mtrm-component>
+    <mtrm-component type="lifting" :title="title" :params="serializeVolume" :val="volume" @change="change"></mtrm-component>
 </template>
 <style></style>
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing */
     export default {
-        name: 'MetronomeVolume',
+        props   : {
+            volume: {
+                type: Number,
+            },
+        },
+        name    : 'MetronomeVolume',
         data () {
             return {
                 title  : 'VOLUME',
-                volume : 1,
                 volumes: [
                     {id: 1, active: false},
                     {id: 2, active: false},
@@ -26,6 +30,11 @@
         computed: {
             serializeVolume: function () {
                 return JSON.stringify (this.volumes);
+            }
+        },
+        methods : {
+            change: function (val) {
+                this.$emit ('change', val.detail.selected);
             }
         }
     }

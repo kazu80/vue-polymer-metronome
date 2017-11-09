@@ -11,16 +11,14 @@
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing,no-unused-vars */
     export default {
-        props: ['sound', 'tempo'],
-        name : 'MetronomePlay',
+        props  : ['sound', 'tempo', 'beat', 'volume'],
+        name   : 'MetronomePlay',
         data () {
             return {
                 params          : '',
                 isPlay          : false,
                 interval        : 0,
-                beat            : 4,
                 beatCount       : 0,
-                volume          : 5,
                 context         : {},
                 soundSourceTempo: {},
                 soundSourceBeat : {},
@@ -33,12 +31,12 @@
 
             // Tempo
             this._loadBufferFromURL ('/static/sound/s_01.mp3', (buffer) => {
-                this.initialTempo (buffer, this.$data.volume * 0.1);
+                this.initialTempo (buffer, this.volume * 0.1);
             });
 
             // Beat
             this._loadBufferFromURL ('/static/sound/s_02.mp3', (buffer) => {
-                this.initialBeat (buffer, this.$data.volume * 0.1);
+                this.initialBeat (buffer, this.volume * 0.1);
             });
         },
         methods: {
@@ -108,19 +106,14 @@
                 this.$data.soundSourceBeat.connect (this.$data.soundGainBeat);
 
                 this.$data.soundSourceBeat.onended = () => {
-                    this.initialBeat (buffer, this.$data.volume * 0.1);
+                    this.initialBeat (buffer, this.volume * 0.1);
                 };
             }
         },
-        watch: {
+        watch  : {
             sound : function (val) {
                 this._loadBufferFromURL (val, (buffer) => {
-                    this.initialTempo (buffer, this.$data.volume * 0.1);
-                });
-            },
-            beat  : function (val) {
-                this._loadBufferFromURL (val, (buffer) => {
-                    this.initialBeat (buffer, this.$data.volume * 0.1);
+                    this.initialTempo (buffer, this.volume * 0.1);
                 });
             },
             isPlay: function (val) {
@@ -129,7 +122,7 @@
 
                     this.$data.interval = setInterval (() => {
                         //
-                        count % this.$data.beat === 0 ? this._playBeat () : this._playTempo ();
+                        count % this.beat === 0 ? this._playBeat () : this._playTempo ();
 
                         //
                         this.$data.beatCount = count;
