@@ -11,8 +11,8 @@
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing,no-unused-vars */
     export default {
-        props  : ['sound'],
-        name   : 'MetronomePlay',
+        props: ['sound', 'tempo'],
+        name : 'MetronomePlay',
         data () {
             return {
                 params          : '',
@@ -20,7 +20,6 @@
                 interval        : 0,
                 beat            : 4,
                 beatCount       : 0,
-                tempo           : 100,
                 volume          : 5,
                 context         : {},
                 soundSourceTempo: {},
@@ -113,7 +112,7 @@
                 };
             }
         },
-        watch  : {
+        watch: {
             sound : function (val) {
                 this._loadBufferFromURL (val, (buffer) => {
                     this.initialTempo (buffer, this.$data.volume * 0.1);
@@ -136,7 +135,7 @@
                         this.$data.beatCount = count;
 
                         count++;
-                    }, 60 * 1000 / this.$data.tempo);
+                    }, 60 * 1000 / this.tempo);
                 } else {
                     if (this.$data.interval) {
                         //

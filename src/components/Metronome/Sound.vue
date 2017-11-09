@@ -9,11 +9,16 @@
 <script>
     /* eslint-disable indent,key-spacing,comma-dangle,semi,spaced-comment,padded-blocks,func-call-spacing */
     export default {
+        props   : {
+            sound: {
+                type: Number,
+            },
+        },
         name    : 'MetronomeSound',
         data () {
             return {
                 title : 'SOUND',
-                sound : 1,
+                //                sound : 1,
                 sounds: [
                     {id: 1, file: '/static/sound/s_01.mp3', active: false},
                     {id: 2, file: '/static/sound/s_02.mp3', active: false},

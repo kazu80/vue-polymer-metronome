@@ -178,42 +178,48 @@
             }
 
             _observerParams (latest, old) {
-                if (old) {
-                    const offIndex = old - 1;
+                if (this.isTypeLifting) {
+                    if (old) {
+                        const offIndex = old - 1;
+
+                        // パラメーターの変更
+                        if (typeof this.params.splice === 'function') {
+                            let oldParam = this.params[offIndex];
+                            oldParam.active = false;
+
+                            // Paramをそのまま変更して入れても検知がされないので、コピーしたものを入れる
+                            oldParam = JSON.parse (JSON.stringify (oldParam));
+                            this.params.splice (offIndex, 1, oldParam);
+                        }
+                    }
+
+                    const onIndex = latest - 1;
 
                     // パラメーターの変更
                     if (typeof this.params.splice === 'function') {
-                        let oldParam = this.params[offIndex];
-                        oldParam.active = false;
+                        let latestParam = this.params[onIndex];
+                        latestParam.active = true;
 
                         // Paramをそのまま変更して入れても検知がされないので、コピーしたものを入れる
-                        oldParam = JSON.parse (JSON.stringify (oldParam));
-                        this.params.splice (offIndex, 1, oldParam);
+                        latestParam = JSON.parse (JSON.stringify (latestParam));
+                        this.params.splice (onIndex, 1, latestParam);
                     }
+
+                    // 配列の変更通知。これをしない変更検知されない
+                    this.notifySplices ('params', []);
+
+                    //
+                    const detail = {
+                        'detail': {
+                            'selected': latest,
+                        }
+                    };
+                    this.dispatchEvent (new CustomEvent ('change', detail));
+                } else if (this.isTypeSlider) {
+                    this.dispatchEvent (new CustomEvent ('change', {
+                        'detail': {'value': latest}
+                    }));
                 }
-
-                const onIndex = latest - 1;
-
-                // パラメーターの変更
-                if (typeof this.params.splice === 'function') {
-                    let latestParam = this.params[onIndex];
-                    latestParam.active = true;
-
-                    // Paramをそのまま変更して入れても検知がされないので、コピーしたものを入れる
-                    latestParam = JSON.parse (JSON.stringify (latestParam));
-                    this.params.splice (onIndex, 1, latestParam);
-                }
-
-                // 配列の変更通知。これをしない変更検知されない
-                this.notifySplices ('params', []);
-
-                //
-                const detail = {
-                    'detail': {
-                        'selected': latest,
-                    }
-                };
-                this.dispatchEvent (new CustomEvent ('change', detail));
             }
         }
 

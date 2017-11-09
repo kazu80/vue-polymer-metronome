@@ -2,19 +2,19 @@
     <main class="main-wrapper">
         <ul class="grid">
             <li>
-                <metronome-tempo></metronome-tempo>
+                <metronome-tempo :tempo="tempo" @change="changeTempo"></metronome-tempo>
             </li>
             <li>
                 <metronome-beat></metronome-beat>
             </li>
             <li>
-                <metronome-sound @change="change"></metronome-sound>
+                <metronome-sound :sound="sound" @change="changeSound"></metronome-sound>
             </li>
             <li>
                 <metronome-volume></metronome-volume>
             </li>
             <li class="width-full-mobile">
-                <metronome-play :sound="sound"></metronome-play>
+                <metronome-play :tempo="tempo" :sound="soundFile"></metronome-play>
             </li>
         </ul>
     </main>
@@ -89,12 +89,17 @@
         name      : 'Metronome',
         data () {
             return {
-                sound: ''
+                tempo    : 120,
+                sound    : 1,
+                soundFile: '',
             }
         },
         methods   : {
-            change: function (val) {
-                this.$data.sound = val;
+            changeTempo: function (val) {
+                this.$data.tempo = val;
+            },
+            changeSound: function (val) {
+                this.$data.soundFile = val;
             }
         },
         components: {
